@@ -1,0 +1,24 @@
+import requests
+from bs4 import BeautifulSoup as bs
+
+headers = {"accept": "*/*",
+           "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
+                         "Chrome/79.0.3945.88 Safari/537.36"}
+
+url = "https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps/"
+
+
+def udemy_parse(_url, _headers):
+    session = requests.Session()
+    request = session.get(url, headers=headers)
+    if request.status_code == 200:
+        soup = bs(request.content, "html.parser")
+        divs = soup.find_all("div", {"class": "lecture-container lecture-container--preview"})
+        for udemy in divs:
+            title = udemy.find("div", {"class": "title"}).text.replace("\n", "")
+            mainttest = title
+
+            print(mainttest)
+
+
+udemy_parse(url, headers)
